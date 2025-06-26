@@ -1,0 +1,130 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Product - Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen"> 
+
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-gray-800">Admin Panel</h1>
+    <nav class="space-x-4">
+      <a href="#" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+      <a href="#" class="text-gray-700 hover:text-blue-600">Products</a>
+      <a href="#" class="text-gray-700 hover:text-blue-600">Orders</a>
+      <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">Logout</button>
+    </nav>
+  </header>
+
+  <main class="p-6">
+    <div class="bg-white p-8 rounded shadow max-w-4xl mx-auto">
+      <h2 class="text-2xl font-semibold mb-6">Add New Product</h2>
+      <form class="space-y-6" onsubmit="handleSubmit(event)">
+
+        <div>
+          <label for="productName" class="block font-medium mb-1">Product Name *</label>
+          <input type="text" id="productName" name="productName"  placeholder="Enter product name" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"/>
+        </div>
+
+        <div>
+          <label for="productDescription" class="block font-medium mb-1">Product Description *</label>
+          <textarea id="productDescription" name="productDescription" placeholder="Enter detailed product description" class="w-full border border-gray-300 rounded px-3 py-2 h-24 resize-none focus:outline-none focus:ring focus:border-blue-300"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="productPrice" class="block font-medium mb-1">Price ($) *</label>
+            <input type="number" id="productPrice" name="productPrice" placeholder="0.00" class="w-full border border-gray-300 rounded px-3 py-2"/>
+          </div>
+          <div>
+            <label for="productCategory" class="block font-medium mb-1">Category *</label>
+            <select id="productCategory" name="productCategory" required class="w-full border border-gray-300 rounded px-3 py-2">
+              <option>Select a category</option>
+              <option>Electronics</option>
+              <option>Books</option>
+              <option>Art suplements</option>
+              <option>Sports & Outdoors</option>
+              <option>Home & Garden</option>
+              <option>toys & Games</option>
+              <option>Clothing</option>
+              <option>Accessories</option>
+            </select>
+          </div>
+          <div>
+            <label for="stockQuantity" class="block font-medium mb-1">Stock Quantity *</label>
+            <input type="number" id="stockQuantity" name="stockQuantity" min="0" placeholder="0" class="w-full border border-gray-300 rounded px-3 py-2"/>
+          </div>
+        </div>
+
+        <div>
+          <label for="productImages" class="block font-medium mb-2">Product Images</label>
+          <div class="border-dashed border-2 border-gray-300 rounded p-6 text-center">
+            <p class="text-sm text-gray-500 mb-2">Upload files or drag and drop</p>
+            <p class="text-xs text-gray-400">PNG, JPG, GIF up to 10MB</p>
+            <input id="productImages" name="productImages" type="file"  class="mt-2"/>
+          </div>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+  <button type="button" class="bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300">
+    Clear Form
+  </button>
+  <button type="button" class="bg-yellow-200 text-yellow-800 px-6 py-2 rounded hover:bg-yellow-300">
+    Save as Draft
+  </button>
+  <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+    Add Product
+  </button>
+</div>
+
+
+      </form>
+    </div>
+  </main>
+   <script>
+    function handleSubmit(e){
+      e.preventDefault()
+
+      const form = e.target
+
+      const data = {
+        name: form.productName.value ,
+        description: form.productDescription.value ,
+        price: form.productPrice.value ,
+        category: form.productCategory.value ,
+        stock: form.stockQuantity.value ,
+
+
+      }
+
+      const imageFileInput = document.getElementById('productImages')
+      const file = imageFileInput.files[0]
+
+      const formData = new FormData();
+      formData.set('name',data.name);
+      formData.set('description',data.description);
+      formData.set('price',data.price);
+      formData.set('category',data.category);
+      formData.set('stock',data.stock);
+      formData.set('file',file);
+      
+      fetch("http://localhost:3000/product/", {
+        method: "POST" ,
+        body: formData ,
+        headers: {
+          token: localStorage.getItem('token') ,
+        }
+      }).then(async (res) => {
+        const data = await res.json()
+        console.log(data)
+        alert(data.message)
+        form.reset()
+      }).catch((err) => {
+        alert('Product add failed')
+      })
+    }
+   </script>
+</body>
+</html>
