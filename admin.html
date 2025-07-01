@@ -35,7 +35,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="productPrice" class="block font-medium mb-1">Price ($) *</label>
+            <label for="productPrice" min="0" class="block font-medium mb-1">Price ($) *</label>
             <input type="number" id="productPrice" name="productPrice" placeholder="0.00" class="w-full border border-gray-300 rounded px-3 py-2"/>
           </div>
           <div>
@@ -44,6 +44,7 @@
               <option>Select a category</option>
               <option>Electronics</option>
               <option>Books</option>
+              <option>School sups</option>
               <option>Art suplements</option>
               <option>Sports & Outdoors</option>
               <option>Home & Garden</option>
