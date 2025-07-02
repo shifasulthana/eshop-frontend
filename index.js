@@ -1,6 +1,9 @@
 function createProduct(product){
     return`<div class="bg-white p-4 rounded shadow hover:shadow-md">
-            <img src="https://m.media-amazon.com/images/I/51RYZACELIL._SL500_.jpg" alt="Product 2" class="w-150 h-40 object-cover rounded mb-3" />
+           <img 
+             src="http://localhost:3000/file?name=${product.image}" 
+             alt="${product.name}" 
+             class="w-full h-48 object-contain mx-auto rounded mb-3"/>
             <h3 class="text-lg font-semibold">${product.name}</h3>
             <P class="text-sm text-gray-600 mb-4 flex-grow line-clamp-3">${product.description}</p>
             <p class="text-gray-600">${product.price}</p>
